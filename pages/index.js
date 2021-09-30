@@ -1,34 +1,59 @@
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head'
+import useSWR from 'swr'
+const { DateTime } = require("luxon");
 
-import Post from '../components/post'
+const fetcher = (...args) => fetch(...args).then(res => res.json())
 
-export async function getStaticProps() {
-  // fetch list of posts
-  const response = await fetch(
-    'https://jsonplaceholder.typicode.com/posts?_page=1'
-  )
-  const postList = await response.json()
+function useEntropy() {
+  const { data, error } = useSWR(`https://entropy.truestamp.com/latest`, fetcher, { refreshInterval: 15000 })
+
   return {
-    props: {
-      postList,
-    },
+    entropy: data,
+    isLoading: !error && !data,
+    isError: error
   }
 }
 
-export default function IndexPage({ postList }) {
+export default function App({ }) {
+  const [dateStateUTC, setDateStateUTC] = useState();
+  const { entropy, isLoading, isError } = useEntropy()
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDateStateUTC(DateTime.now().toUTC())
+    }, 100);
+    return () => clearInterval(interval)
+  }, []);
+
   return (
     <main>
       <Head>
-        <title>Home page</title>
+        <title>Truestamp | Observable Entropy</title>
       </Head>
 
-      <h1>List of posts</h1>
+      <section>
+        <pre>{entropy && entropy.hash}</pre>
+      </section>
 
       <section>
-        {postList.map((post) => (
-          <Post {...post} key={post.id} />
-        ))}
+        <pre>{entropy && entropy.prevHash}</pre>
       </section>
+
+      <section>
+        <pre>{entropy && entropy.createdAt}</pre>
+      </section>
+
+      <section>
+        {dateStateUTC && dateStateUTC.toISO()}
+      </section>
+      <section>
+        {dateStateUTC && dateStateUTC.toMillis()}
+      </section>
+      <section>
+        {dateStateUTC && dateStateUTC.toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS)}
+      </section>
+
     </main>
   )
 }

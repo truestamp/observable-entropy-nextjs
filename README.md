@@ -1,21 +1,20 @@
-# Static export example
+# Observable Entropy Web
 
-This example show how to export to static HTML files your Next.js application fetching data from an API to generate a dynamic list of pages.
+This is a [Next.js](https://nextjs.org/) web front-end for the
+[truestamp/observable-entropy](https://github.com/truestamp/observable-entropy)
+project.
 
-When trying to run `npm start` it will build and export your pages into the `out` folder and serve them on `localhost:5000`.
+It will display the current time, as well as the key info from the latest
+`entropy.json` file available.
 
-## Preview
+## Example Usage
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+One example of usage would be to display this website in the background of a
+video call, visible to all parties. A recording of the video call would then
+have the current timestamp visible as well as the most current observable
+entropy data. This would have the effect of proving that the video call is
+taking place live, or was pre-recorded after the point in time when the entropy
+being displayed was generated.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-static-export)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-static-export with-static-export-app
-# or
-yarn create next-app --example with-static-export with-static-export-app
-```
+Anyone can independently cryptographically verify the entropy data, it's
+timestamp, and validity.
