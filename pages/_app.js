@@ -5,6 +5,9 @@ import Head from 'next/head'
 import useSWR from 'swr'
 const { DateTime } = require("luxon");
 
+import 'tailwindcss/tailwind.css'
+import '../styles/globals.css'
+
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 function useEntropy() {
@@ -24,7 +27,7 @@ export default function App({ }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setDateStateUTC(DateTime.now().toUTC())
-    }, 100);
+    }, 500);
     return () => clearInterval(interval)
   }, []);
 
