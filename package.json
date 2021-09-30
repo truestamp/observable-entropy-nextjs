@@ -1,5 +1,11 @@
 {
+  "name": "observable-entropy-nextjs",
+  "description": "A web front-end for the Truestamp Observable Entropy project.",
+  "author": "Truestamp Inc. <support@truestamp.com>",
+  "repository": "https://github.com/truestamp/observable-entropy-nextjs",
+  "license": "UNLICENSED",
   "private": true,
+  "version": "1.0.0",
   "dependencies": {
     "luxon": "^2.0.2",
     "next": "latest",

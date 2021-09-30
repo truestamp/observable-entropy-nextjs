@@ -1,3 +1,5 @@
+// Copyright © 2020-2021 Truestamp Inc. All rights reserved.
+
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head'
 import useSWR from 'swr'
