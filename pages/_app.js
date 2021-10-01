@@ -70,16 +70,16 @@ export default function App({ }) {
         <div className="flex flex-col min-h-screen items-center justify-center font-mono">
           <p className={"w-5/6 md:w-full text-center text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl break-words md:break-normal mb-10 font-bold" + hashColor()}>{entropy && entropy.hash}</p>
 
-          <p className="text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-center text-gray-600 dark:text-gray-400 mb-5"><AtSymbolIcon className="mr-2 h-5 w-5 text-blue-500 inline-block" />{displayCreatedAt()}<span className="inline sm:hidden"><br /></span><span className="hidden sm:inline"> &mdash; </span>{displayCreatedAtDiff()} ago</p>
+          <p className="text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-center text-gray-600 dark:text-gray-400 mb-5"><AtSymbolIcon className="mr-2 h-5 md:h-7 lg:h-8 w-5 md:w-7 lg:w-8 text-blue-500 inline-block" />{displayCreatedAt()}<span className="inline sm:hidden"><br /></span><span className="hidden sm:inline"> &mdash; </span>{displayCreatedAtDiff()} ago</p>
 
           <p className="text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl mb-5 text-gray-600 dark:text-gray-400">
-            <ClockIcon className="mr-2 h-5 w-5 text-blue-500 inline-block" />{dateState && dateState.toUTC().toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS)}
+            <ClockIcon className="mr-2 h-5 md:h-7 lg:h-8 w-5 md:w-7 lg:w-8 text-blue-500 inline-block" />{dateState && dateState.toUTC().toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS)}
           </p>
         </div>
       </main>
 
       <footer className="h-10 sm:h-15 mb-10 sm:mb-15">
-        <p className="text-sm text-center font-light text-gray-500 dark:text-gray-500">The <Link href="https://github.com/truestamp/observable-entropy/blob/main/README.md" ><a className="text-blue-600 hover:text-blue-600">Observable Entropy</a></Link> project<span className="inline sm:hidden"><br /></span> &copy; 2021 <Link href="https://www.truestamp.com"><a className="text-blue-600 hover:text-blue-600">Truestamp Inc.</a></Link></p>
+        <p className="text-sm text-center font-light text-gray-500 dark:text-gray-500">The <Link href="https://github.com/truestamp/observable-entropy/blob/main/README.md" ><a className="text-blue-600 hover:text-blue-600">Observable Entropy</a></Link> project<span className="inline sm:hidden"><br /></span><span className="hidden sm:inline">, </span>&copy; 2021 <Link href="https://www.truestamp.com"><a className="text-blue-600 hover:text-blue-600">Truestamp Inc.</a></Link></p>
       </footer>
     </body >
   )
