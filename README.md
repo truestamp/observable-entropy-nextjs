@@ -1,4 +1,4 @@
-# Observable Entropy Web
+# Observable Entropy
 
 This is a [Next.js](https://nextjs.org/) web front-end for the
 [truestamp/observable-entropy](https://github.com/truestamp/observable-entropy)
