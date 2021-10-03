@@ -8,10 +8,15 @@ import useSWR from 'swr'
 const { DateTime } = require("luxon");
 
 import 'tailwindcss/tailwind.css'
-import '../styles/globals.css'
 import { ClockIcon, AtSymbolIcon } from '@heroicons/react/solid'
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
+const fetcher = async (
+  input: RequestInfo,
+  init: RequestInit
+) => {
+  const res = await fetch(input, init);
+  return res.json();
+};
 
 function useEntropy() {
   const { data, error } = useSWR(`https://entropy.truestamp.com/latest`, fetcher, { refreshInterval: 15000 })
@@ -23,7 +28,7 @@ function useEntropy() {
   }
 }
 
-export default function App({ }) {
+function HomePage({ }) {
   const [dateState, setDateState] = useState();
   const { entropy, isLoading, isError } = useEntropy()
 
@@ -121,3 +126,5 @@ export default function App({ }) {
     </body >
   )
 }
+
+export default HomePage
