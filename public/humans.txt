@@ -1,0 +1,11 @@
+/* TEAM */
+
+    CEO: Glenn Rempe
+    Site: https://www.truestamp.com
+    Email: glenn [at] truestamp.com
+    Twitter: @truestamp, @grempe
+    Location: United States
+
+/* THANKS */
+
+    To: Our investors, advisors, and friends who all contributed generously to help make this happen.
