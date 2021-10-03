@@ -11,7 +11,7 @@ It will display the current time, as well as the key info from the latest
 
 One possible example of usage would be to display this website in the background of a
 video call, visible to all parties. A recording of the video call would then
-have the current timestamp visible as well as the most current observable
+have the current timestamp visible as well as the latest observable
 entropy data. This would have the effect of proving that the video call is
 taking place live, or was pre-recorded after the point in time when the entropy
 being displayed was generated.
