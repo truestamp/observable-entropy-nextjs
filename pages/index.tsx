@@ -114,7 +114,7 @@ function HomePage({ }) {
       </main>
 
       <footer className="h-10 sm:h-15 mb-10 sm:mb-15">
-        <p className="text-sm text-center font-light text-gray-400">The <Link href="https://github.com/truestamp/observable-entropy/blob/main/README.md" ><a className="text-blue-400 hover:text-blue-500">Observable Entropy</a></Link> project<span className="inline sm:hidden"><br /></span><span className="hidden sm:inline">, </span>&copy; 2021 <Link href="https://www.truestamp.com"><a className="text-blue-400 hover:text-blue-500">Truestamp Inc.</a></Link></p>
+        <p className="text-sm text-center font-light text-gray-400">The <Link href="https://github.com/truestamp/observable-entropy/blob/main/README.md" ><a className="text-blue-400 hover:text-blue-500">Observable Entropy</a></Link> project<span className="inline sm:hidden"><br /></span><span className="hidden sm:inline">, </span>&copy; 2021-{DateTime.now().toUTC().toFormat('yyyy')} <Link href="https://www.truestamp.com"><a className="text-blue-400 hover:text-blue-500">Truestamp Inc.</a></Link></p>
       </footer>
 
       <Script
