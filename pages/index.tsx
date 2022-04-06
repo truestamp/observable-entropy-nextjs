@@ -103,7 +103,7 @@ function HomePage({ }) {
           {entropy && dateState && <>
             <p className={"w-5/6 md:w-full text-center text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl break-words md:break-normal mb-10 font-bold" + hashColor()}>{entropy && entropy.hash}</p>
 
-            <p className="text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-center text-gray-400 mb-5"><AtSymbolIcon className="mr-2 h-5 md:h-7 lg:h-8 w-5 md:w-7 lg:w-8 text-blue-500 inline-block" />{displayCreatedAt()}<span className="inline sm:hidden"><br /></span><span className="hidden sm:inline"> &mdash; </span>{displayCreatedAtDiff()} ago</p>
+            <p className="text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-center text-gray-400 mb-5"><AtSymbolIcon className="mr-2 h-5 md:h-7 lg:h-8 w-5 md:w-7 lg:w-8 text-blue-500 inline-block" />Updated {displayCreatedAtDiff()} ago</p>
 
             <p className="text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl mb-5 text-gray-400">
               <ClockIcon className="mr-2 h-5 md:h-7 lg:h-8 w-5 md:w-7 lg:w-8 text-blue-500 inline-block" />{dateState.toUTC().toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS)} [{dateState.toFormat('x')}]
