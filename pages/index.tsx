@@ -128,7 +128,7 @@ function HomePage({}) {
       </Head>
 
       <main className="">
-        <div className="grid grid-cols-1 mb-8">
+        <div className="grid grid-cols-1 mb-5">
           {entropy && dateState && (
             <>
               <a
@@ -139,10 +139,10 @@ function HomePage({}) {
               >
                 {/* Large QR : Show only when printing */}
                 <span className="hidden print:block">
-                  <div className={"bg-white p-10 my-10"}>
+                  <div className={"bg-white p-10"}>
                     <QRCode
                       id="QRCode"
-                      size={1000}
+                      size={750}
                       level={"H"}
                       value={`${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}`}
                     />
@@ -150,7 +150,7 @@ function HomePage({}) {
                 </span>
 
                 {/* Medium QR : Show only on larger devices, and not when printed */}
-                <div className="bg-white p-10 my-10 hidden sm:block">
+                <div className="bg-white p-10 mt-10 hidden sm:block">
                   <span className="print:hidden">
                     <QRCode
                       id="QRCode"
@@ -164,7 +164,7 @@ function HomePage({}) {
                 </div>
 
                 {/* Small QR : Show only on smaller devices, and not when printed */}
-                <div className="bg-white p-10 my-10 block sm:hidden">
+                <div className="bg-white p-10 mt-10 block sm:hidden">
                   <span className="print:hidden">
                     <QRCode
                       id="QRCode"
@@ -183,7 +183,7 @@ function HomePage({}) {
                 target="_blank"
                 rel="noreferrer"
                 className={
-                  "font-mono font-bold text-center text-lg md:text-2xl xl:text-3xl 2xl:text-4xl break-words md:break-normal " +
+                  "print:mt-0 mt-5 font-mono font-bold text-center text-lg md:text-2xl xl:text-3xl 2xl:text-4xl break-words md:break-normal " +
                   hashColor()
                 }
               >
@@ -197,7 +197,7 @@ function HomePage({}) {
                 target="_blank"
                 rel="noreferrer"
                 className={
-                  "mb-5 font-mono font-bold text-center text-lg md:text-2xl xl:text-3xl 2xl:text-4xl break-words md:break-normal " +
+                  "font-mono font-bold text-center text-lg md:text-2xl xl:text-3xl 2xl:text-4xl break-words md:break-normal " +
                   hashColor()
                 }
               >
@@ -220,11 +220,11 @@ function HomePage({}) {
                 </span>
               </p>
 
-              <p className="print:hidden text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-center text-yellow-100 mt-5">
+              <p className="print:hidden mt-5 text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-center text-yellow-100">
                 Updated {displayCreatedAtDiff()} ago
               </p>
 
-              <div className="print:hidden mt-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="print:hidden mt-5 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* <!-- We've used 3xl here, but feel free to try other max-widths based on your needs --> */}
                 <div className="max-w-2xl mx-auto text-yellow-100">
                   Print and include this page in the near background of your
