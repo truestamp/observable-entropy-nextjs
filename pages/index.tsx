@@ -7,6 +7,7 @@ import { DateTime } from "luxon"
 import QRCode from "react-qr-code"
 
 import "tailwindcss/tailwind.css"
+import Link from "next/link"
 
 const ENTROPY_LATEST_URL = "https://entropy-v2.truestamp.com/latest.json"
 const ENTROPY_VERIFY_HASH_URL = "https://entropy-v2.truestamp.com"
@@ -47,11 +48,11 @@ function HomePage({}) {
     } else if (isLoading) {
       return " text-gray-500"
     } else if (entropy) {
-      return " text-yellow-100"
+      return " text-gray-100"
     }
   }
 
-  function displayCreatedAtDiff(capturedAtStr: string) {
+  function displayCapturedAtDiff(capturedAtStr: string) {
     if (!capturedAtStr) return ""
 
     const capturedAt = DateTime.fromISO(capturedAtStr)
@@ -130,6 +131,15 @@ function HomePage({}) {
 
       <main className="">
         <div className="grid grid-cols-1 mb-5">
+          <h1 className="mt-5 text-3xl text-center font-semibold text-gray-200">
+            <Link
+              href="https://github.com/truestamp/observable-entropy-v2/blob/main/README.md/"
+              target={"_blank"}
+            >
+              Observable Entropy
+            </Link>
+          </h1>
+
           {entropy && dateState && (
             <>
               <a
@@ -151,7 +161,7 @@ function HomePage({}) {
                 </span>
 
                 {/* Medium QR : Show only on larger devices, and not when printed */}
-                <div className="bg-white p-10 mt-10 hidden sm:block">
+                <div className="bg-white p-10 mt-10 hidden sm:block rounded-xl">
                   <span className="print:hidden">
                     <QRCode
                       id="QRCode"
@@ -164,7 +174,7 @@ function HomePage({}) {
                 </div>
 
                 {/* Small QR : Show only on smaller devices, and not when printed */}
-                <div className="bg-white p-10 mt-10 block sm:hidden">
+                <div className="bg-white p-10 mt-10 block sm:hidden rounded-xl">
                   <span className="print:hidden">
                     <QRCode
                       id="QRCode"
@@ -186,98 +196,51 @@ function HomePage({}) {
                   hashColor()
                 }
               >
-                <span className="print:text-black print:text-5xl">
+                <p className="print:text-black print:text-5xl">
                   {entropy?.hash.substring(0, 32)}
-                </span>
-              </a>
-
-              <a
-                href={entropyUrl}
-                target="_blank"
-                rel="noreferrer"
-                className={
-                  "font-mono font-bold text-center text-lg md:text-2xl xl:text-3xl 2xl:text-4xl break-words md:break-normal " +
-                  hashColor()
-                }
-              >
-                <span className="print:text-black print:text-5xl">
+                </p>
+                <p className="print:text-black print:text-5xl">
                   {entropy?.hash.substring(32, 64)}
-                </span>
+                </p>
+                {entropy?.data?.timestamp?.capturedAt && (
+                  <p className="text-sm text-center text-gray-200">
+                    {`${displayCapturedAtDiff(
+                      entropy.data.timestamp.capturedAt
+                    )} ago`}{" "}
+                  </p>
+                )}
               </a>
 
-              <p className="text-center mt-5">
-                <span className="print:hidden text-sm sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-yellow-100">
+              <div className="print:hidden mt-5">
+                <p className="text-sm text-center sm:text-sm md:text-lg lg:text-2xl text-gray-200">
                   {dateState
                     .toUTC()
                     .toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS)}
-                </span>
-              </p>
-
-              {entropy?.data?.timestamp?.capturedAt && (
-                <p className="print:hidden mt-5 text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-center text-yellow-100">
-                  {`Updated ${displayCreatedAtDiff(
-                    entropy.data.timestamp.capturedAt
-                  )} ago`}{" "}
                 </p>
-              )}
-
-              <div className="print:hidden mt-5 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* <!-- We've used 3xl here, but feel free to try other max-widths based on your needs --> */}
-                <div className="max-w-2xl mx-auto text-yellow-100">
-                  Print and include this page in the near background of your
-                  shot so that the QR code and hash are clearly visible.
-                  Alternatively, display it on a screen in the near background
-                  of the shot. Scanning the QR code allow others to verify the
-                  time context of your content and can prove it was created
-                  after a point in time. Combining this with a{" "}
-                  <a
-                    href="https://www.truestamp.com"
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    Truestamp
-                  </a>{" "}
-                  commitment of your content can tightly define the time of
-                  creation for documentary or evidentiary purposes.
-                </div>
               </div>
             </>
           )}
         </div>
       </main>
 
-      <footer className="h-10 sm:h-15 sm:mb-15">
+      <footer className="mt-10 h-10 sm:h-15 sm:mb-15">
         {/* Display Footer */}
         <span className="print:hidden">
-          <p className="text-xs sm:text-sm md:text-lg lg:text-2xl text-center font-light text-yellow-100">
-            The{" "}
-            <a
-              href="https://github.com/truestamp/observable-entropy-v2/blob/main/README.md"
-              className="text-yellow-300 hover:text-yellow-100"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Observable Entropy
-            </a>{" "}
-            project
-            <span className="inline sm:hidden">
-              <br />
-            </span>
-            <span className="hidden sm:inline">, </span>
-            &copy; 2021-{DateTime.now().toUTC().toFormat("yyyy")}{" "}
-            <a
+          <p className="text-sm text-center text-gray-200">
+            Copyright &copy;{" "}
+            <Link
               href="https://www.truestamp.com"
-              className="text-yellow-300 hover:text-yellow-100"
-              target="_blank"
-              rel="noreferrer"
+              target={"_blank"}
+              className={"underline"}
             >
-              Truestamp Inc.
-            </a>
+              Truestamp, Inc.
+            </Link>{" "}
+            {DateTime.now().toUTC().toFormat("yyyy")} All Rights Reserved
           </p>
         </span>
 
         {/* Print Footer */}
-        <p className="hidden print:block print:text-black print:text-4xl print:place-self-center print:text-center">
+        <p className="hidden print:block print:text-black print:text-2xl print:place-self-center print:text-center">
           {dateState
             .toUTC()
             .toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS)}
@@ -285,6 +248,21 @@ function HomePage({}) {
           https://observable-entropy.truestamp.com
         </p>
       </footer>
+
+      <div className="print:hidden mt-5 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto text-gray-200">
+          Print and include this page in the near background of your shot so
+          that the QR code and hash are clearly visible. Alternatively, display
+          it on a screen in the near background of the shot. Scanning the QR
+          code allow others to verify the time context of your content and can
+          prove it was created after a point in time. Combining this with a{" "}
+          <a href="https://www.truestamp.com" rel="noreferrer" target="_blank">
+            Truestamp
+          </a>{" "}
+          commitment of your content can tightly define the time of creation for
+          documentary or evidentiary purposes.
+        </div>
+      </div>
     </body>
   )
 }
