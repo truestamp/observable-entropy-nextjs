@@ -1,27 +1,17 @@
-// Copyright © 2020-2021 Truestamp Inc. All rights reserved.
+// Copyright © 2020-2022 Truestamp Inc. All rights reserved.
 
 import React, { useState, useEffect } from "react"
 import Head from "next/head"
-import Link from "next/link"
-import Script from "next/script"
 import useSWR from "swr"
 import { DateTime } from "luxon"
-
-import ReactDOM from "react-dom"
 import QRCode from "react-qr-code"
 
 import "tailwindcss/tailwind.css"
-import {
-  ClockIcon,
-  AtSymbolIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/solid"
 
-const ENTROPY_LATEST_URL = "https://entropy.truestamp.com/latest"
-// const ENTROPY_HASH_URL = "https://entropy.truestamp.com/hash"
-const ENTROPY_VERIFY_HASH_URL = "https://entropy.truestamp.com/verify/hash"
-const ENTROPY_REFRESH_MS = 1000
-const CLOCK_REFRESH_MS = 1000 / 30 // 30fps
+const ENTROPY_LATEST_URL = "https://entropy-v2.truestamp.com/latest.json"
+const ENTROPY_VERIFY_HASH_URL = "https://entropy-v2.truestamp.com"
+const ENTROPY_REFRESH_MS = 1000 * 10 // 10 seconds
+const CLOCK_REFRESH_MS = 1000
 
 const fetcher = async (input: RequestInfo, init: RequestInit) => {
   const res = await fetch(input, init)
@@ -61,20 +51,31 @@ function HomePage({}) {
     }
   }
 
-  function displayCreatedAt() {
-    if (!entropy || !entropy.createdAt) return ""
+  function displayCreatedAtDiff(capturedAtStr: string) {
+    if (!capturedAtStr) return ""
 
-    const createdAt = DateTime.fromISO(entropy.createdAt)
-    return createdAt.toUTC().toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS)
-  }
-
-  function displayCreatedAtDiff() {
-    if (!entropy || !entropy.createdAt) return ""
-
-    const createdAt = DateTime.fromISO(entropy.createdAt)
-    const diff = DateTime.now().toUTC().diff(createdAt, ["minutes", "seconds"])
+    const capturedAt = DateTime.fromISO(capturedAtStr)
+    const diff = DateTime.now().toUTC().diff(capturedAt, ["minutes", "seconds"])
     return `${diff.minutes}m ${Math.floor(diff.seconds)}s`
   }
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        <p>Loading...</p>
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        <p>Error...</p>
+      </div>
+    )
+  }
+
+  const entropyUrl = `${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}.json`
 
   return (
     <body className="min-h-screen p-0 bg-gradient-to-tr from-[#00aeef] via-[#2a3990] to-purple-600">
@@ -132,7 +133,7 @@ function HomePage({}) {
           {entropy && dateState && (
             <>
               <a
-                href={`${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}`}
+                href={entropyUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="place-self-center"
@@ -144,7 +145,7 @@ function HomePage({}) {
                       id="QRCode"
                       size={750}
                       level={"H"}
-                      value={`${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}`}
+                      value={entropyUrl}
                     />
                   </div>
                 </span>
@@ -157,8 +158,7 @@ function HomePage({}) {
                       fgColor={"#2a3990"}
                       size={650}
                       level={"H"}
-                      title={`${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}`}
-                      value={`${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}`}
+                      value={entropyUrl}
                     />
                   </span>
                 </div>
@@ -171,15 +171,14 @@ function HomePage({}) {
                       fgColor={"#2a3990"}
                       size={256}
                       level={"H"}
-                      title={`${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}`}
-                      value={`${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}`}
+                      value={entropyUrl}
                     />
                   </span>
                 </div>
               </a>
 
               <a
-                href={`${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}`}
+                href={entropyUrl}
                 target="_blank"
                 rel="noreferrer"
                 className={
@@ -193,7 +192,7 @@ function HomePage({}) {
               </a>
 
               <a
-                href={`${ENTROPY_VERIFY_HASH_URL}/${entropy.hash}`}
+                href={entropyUrl}
                 target="_blank"
                 rel="noreferrer"
                 className={
@@ -214,15 +213,13 @@ function HomePage({}) {
                 </span>
               </p>
 
-              <p className="text-center mt-5">
-                <span className="print:hidden font-mono text-sm sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-yellow-100">
-                  [{dateState.toFormat("x")} ms]
-                </span>
-              </p>
-
-              <p className="print:hidden mt-5 text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-center text-yellow-100">
-                Updated {displayCreatedAtDiff()} ago
-              </p>
+              {entropy?.data?.timestamp?.capturedAt && (
+                <p className="print:hidden mt-5 text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl text-center text-yellow-100">
+                  {`Updated ${displayCreatedAtDiff(
+                    entropy.data.timestamp.capturedAt
+                  )} ago`}{" "}
+                </p>
+              )}
 
               <div className="print:hidden mt-5 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* <!-- We've used 3xl here, but feel free to try other max-widths based on your needs --> */}
@@ -246,17 +243,6 @@ function HomePage({}) {
               </div>
             </>
           )}
-          {!entropy && (
-            <>
-              <p
-                className={
-                  "w-5/6 md:w-full text-center text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl 2xl:text-4xl break-words md:break-normal mb-10 font-bold text-gray-500"
-                }
-              >
-                loading...
-              </p>
-            </>
-          )}
         </div>
       </main>
 
@@ -266,7 +252,7 @@ function HomePage({}) {
           <p className="text-xs sm:text-sm md:text-lg lg:text-2xl text-center font-light text-yellow-100">
             The{" "}
             <a
-              href="https://github.com/truestamp/observable-entropy/blob/main/README.md"
+              href="https://github.com/truestamp/observable-entropy-v2/blob/main/README.md"
               className="text-yellow-300 hover:text-yellow-100"
               target="_blank"
               rel="noreferrer"
@@ -299,11 +285,6 @@ function HomePage({}) {
           https://observable-entropy.truestamp.com
         </p>
       </footer>
-
-      <Script
-        src="https://static.cloudflareinsights.com/beacon.min.js"
-        data-cf-beacon='{"token": "e045c587d3224c8a8e309f607ee65a0d"}'
-      />
     </body>
   )
 }
