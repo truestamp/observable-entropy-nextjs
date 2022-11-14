@@ -34,7 +34,7 @@ export default function EntropyHash() {
 
   if (isError) return <div>Error: {error.message}</div>
 
-  const entropyUrl = `${ENTROPY_BASE_URL}/${data?.hash}.json`
+  const entropyUrl = `${ENTROPY_BASE_URL}/${data?.hash}`
 
   return (
     <div>
