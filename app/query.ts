@@ -30,8 +30,6 @@ export function useLatestEntropy() {
       retry: 10,
       retryDelay: (attempt) =>
         Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
-      staleTime: 1000 * 60,
-      cacheTime: 1000 * 60 * 60,
       refetchInterval: 1000 * 10,
     }
   )
